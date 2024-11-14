@@ -82,7 +82,6 @@ export const useClassDetailsStore = defineStore('classDetails', {
                 ...student,
                 payCompleted_living: payCompletedData?.living ?? false
             }));
-            console.log('Class Details222:', this.classDetails);
             this.loading = false;
         },
         async fetchHeadTeacherTel(classNames) {

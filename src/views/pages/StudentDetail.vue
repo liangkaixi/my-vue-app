@@ -50,7 +50,7 @@
                     <div class="mt-4">
                         <label for="paymentAmount"><strong>补交金额：</strong></label>
                         <InputText id="paymentAmount" v-model="paymentAmount" placeholder="请输入金额" class="w-25 md:w-25"
-                            :disabled="!paymentMethod" :value="student.livingInfo[0].amount" />
+                            :disabled="!paymentMethod" />
                     </div>
 
                     <!-- 提交按钮 -->
@@ -92,7 +92,7 @@ const paymentMethods = ref([
     { name: '微信', value: 'wechat' }
 ]);
 const paymentMethod = ref('wechat');
-
+const paymentAmount = ref(0);
 
 // 控制按钮是否正在提交
 const isSubmitting = ref(false);
@@ -125,7 +125,19 @@ onMounted(async () => {
         await classDetailsStore.fetchClassDetails(route.params.classNames, 2);
     }
     sortStudents();
+
 });
+
+watch(
+    () => sortedStudents.value,  // 监听 sortedStudents 数组的变化
+    (newSortedStudents) => {
+        const newStudent = newSortedStudents.find(s => s.id === studentId);
+        if (newStudent && newStudent.livingInfo?.length > 0) {
+            paymentAmount.value = newStudent.livingInfo[0]?.amount || 0;
+        }
+    },
+    { immediate: true }  // 初次加载时立即执行
+);
 
 const sortStudents = () => {
     sortedStudents.value = classDetailsStore.classDetails

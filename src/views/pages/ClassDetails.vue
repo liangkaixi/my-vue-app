@@ -145,8 +145,6 @@ onMounted(async () => {
     total_count.value = classDetailsStore.classDetails.length;
     loading.value = false;
     const teacherInfo = await classDetailsStore.fetchHeadTeacherTel(props.classNames);
-    console.log("jjj", manualNames.value);
-
     // 确保电话不为 null 或 undefined
     if (teacherInfo) {
         teacher.value = {
