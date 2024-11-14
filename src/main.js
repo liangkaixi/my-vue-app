@@ -4,13 +4,17 @@ import router from './router';
 import { createPinia } from 'pinia'
 import Aura from '@primevue/themes/aura';
 import PrimeVue from 'primevue/config';
+import { VueQueryPlugin } from '@tanstack/vue-query';
+
+
 import ConfirmationService from 'primevue/confirmationservice';
 import ToastService from 'primevue/toastservice';
 
 import '@/assets/styles.scss';
 import '@/assets/tailwind.css';
-const pinia = createPinia()
+const pinia = createPinia();
 const app = createApp(App);
+app.use(VueQueryPlugin);
 app.use(pinia)
 app.use(router);
 app.use(PrimeVue, {

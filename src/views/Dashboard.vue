@@ -21,7 +21,6 @@ const filteredClasses = computed(() => {
 onMounted(async () => {
     try {
         await schoolStore.loadSchoolClasses();
-        console.log('School classes loaded:', schoolStore.schoolClasses);
     } catch (err) {
         console.error('Error fetching school classes:', err);
     }
@@ -108,7 +107,6 @@ watch([getPrimary, getSurface, isDarkTheme], () => {
     chartData.value = setChartData();
     chartOptions.value = setChartOptions();
 });
-
 </script>
 
 <template>
@@ -117,7 +115,7 @@ watch([getPrimary, getSurface, isDarkTheme], () => {
             :student_count="schoolClass.student_count" :value="schoolClass.living_state_true_count"
             :state_false="schoolClass.living_state_false_count" icon="pi pi-users"
             iconBgColor="bg-cyan-100 dark:bg-cyan-400/10" iconColor="text-cyan-500"
-            :additionalInfo="schoolClass.fee_count" description=" 人已缴费"
+            :additionalInfo="schoolClass.fee_count + schoolClass.manual_payment_count" description=" 人已缴费"
             :pay_completed_living="schoolClass.pay_completed_living" :classNames="schoolClass.classNames"
             :school_class_id="Number(schoolClass.school_class_id)" />
     </div>

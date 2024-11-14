@@ -17,8 +17,21 @@ const router = createRouter({
                     path: '/details/:classNames/:school_class_id',
                     name: 'ClassDetails',
                     component: () => import('../views/pages/ClassDetails.vue'),
-                    props: true // 启用 props 传递
+                    props: route => ({ 
+                        classNames: route.params.classNames, 
+                        school_class_id: Number(route.params.school_class_id),
+                        pay_completed_living: route.query.pay_completed_living === 'true'
+                     })
                 },
+                {   path: '/student/:studentId', 
+                    name: 'StudentDetail', 
+                    component:() => import('../views/pages/StudentDetail.vue'),
+                    },
+                // {
+                //     path:'/auth/signup',
+                //     name:'signup',
+                //     component: () => import('../views/pages/auth/signUp.vue')
+                //      },
                 {
                     path: '/uikit/formlayout',
                     name: 'formlayout',
@@ -123,21 +136,21 @@ const router = createRouter({
             component: () => import('@/views/pages/NotFound.vue')
         },
 
-        {
-            path: '/auth/login',
-            name: 'login',
-            component: () => import('@/views/pages/auth/Login.vue')
-        },
-        {
-            path: '/auth/access',
-            name: 'accessDenied',
-            component: () => import('@/views/pages/auth/Access.vue')
-        },
-        {
-            path: '/auth/error',
-            name: 'error',
-            component: () => import('@/views/pages/auth/Error.vue')
-        }
+        // {
+        //     path: '/auth/login',
+        //     name: 'login',
+        //     component: () => import('@/views/pages/auth/Login.vue')
+        // },
+        // {
+        //     path: '/auth/access',
+        //     name: 'accessDenied',
+        //     component: () => import('@/views/pages/auth/Access.vue')
+        // },
+        // {
+        //     path: '/auth/error',
+        //     name: 'error',
+        //     component: () => import('@/views/pages/auth/Error.vue')
+        // }
     ]
 });
 

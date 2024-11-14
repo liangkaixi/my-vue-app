@@ -20,7 +20,7 @@
             <span class="text-primary font-medium text-xl">{{ additionalInfo }}</span>
             <span class="text-muted-color">{{ description }}</span>
             <div class="mt-auto pt-4 flex justify-center">
-                <Button label="详情" severity="secondary" @click="goToDetailPage" />
+                <Button label="详情"  severity="secondary" @click="goToDetailPage" />
             </div>
         </div>
     </div>
@@ -28,7 +28,6 @@
 
 <script setup>
 import Button from 'primevue/button';
-import { defineProps } from 'vue';
 import { useRouter } from 'vue-router';
 const props = defineProps({
     title: String,
@@ -39,19 +38,21 @@ const props = defineProps({
     iconBgColor: String,
     iconColor: String,
     additionalInfo: Number,
-    pay_completed_living: Boolean,
     description: String,
+    pay_completed_living: Boolean,
     classNames: String,
     school_class_id: Number
 });
 const router = useRouter();
-
 function goToDetailPage() {
     router.push({
         name: 'ClassDetails',
         params: {
             classNames: props.classNames,
             school_class_id: Number(props.school_class_id)
+        },
+        query: {
+            pay_completed_living: props.pay_completed_living
         }
     });
 }

@@ -1,6 +1,8 @@
 <script setup>
 import { useLayout } from '@/layout/composables/layout';
 import AppConfigurator from './AppConfigurator.vue';
+import { useRoute } from 'vue-router';
+const router = useRoute();
 
 const { onMenuToggle, toggleDarkMode, isDarkTheme } = useLayout();
 </script>
@@ -12,7 +14,7 @@ const { onMenuToggle, toggleDarkMode, isDarkTheme } = useLayout();
                 <i class="pi pi-bars"></i>
             </button>
             <router-link to="/" class="layout-topbar-logo">
-                <span>白小食堂服务</span>
+                <span>白小后勤服务</span>
             </router-link>
         </div>
         <div class="layout-topbar-actions">
@@ -41,11 +43,12 @@ const { onMenuToggle, toggleDarkMode, isDarkTheme } = useLayout();
                         <i class="pi pi-calendar"></i>
                         <span>日历</span>
                     </button>
-                    <button type="button" class="layout-topbar-action">
-                        <i class="pi pi-inbox"></i>
-                        <span>信息</span>
+
+                    <button type="button" class="layout-topbar-action" title="注册">
+                        <i class="pi pi-user-plus"></i>
+                        <span>注册</span>
                     </button>
-                    <button type="button" class="layout-topbar-action">
+                    <button type="button" class="layout-topbar-action" title="登录">
                         <i class="pi pi-user"></i>
                         <span>登录</span>
                     </button>
