@@ -1,7 +1,7 @@
 <template>
     <div class="p-6 bg-gray-100">
         <div class="flex">
-            <h1 class="text-xl font-bold mb-6">{{ classNames }} 11月生活费缴费详情</h1>
+            <h1 class="text-xl font-bold mb-6">{{ classNames }} 12月生活费缴费详情</h1>
             <div :class="['flex flex-col items-center justify-center rounded-border text-center cursor-pointer', pay_completed_living ? 'bg-green-100' : 'bg-red-100']"
                 style="width: 5rem; height: 2rem" @click="togglePaymentStatus">
                 <i :class="[iconColor, '!text-xl']"></i>
@@ -62,7 +62,7 @@
 
             <!-- 未缴费人数及名单 -->
             <section v-if="pendingNames.length" class="mb-4 p-4 bg-white shadow rounded">
-                <h2 class="text-lg font-semibold mb-3">11月生活费未缴费{{ pendingNames.length }}人, 总计欠缴金额: {{ totalReceivable
+                <h2 class="text-lg font-semibold mb-3">12月生活费未缴费{{ pendingNames.length }}人, 总计欠缴金额: {{ totalReceivable
                     }}元</h2>
                 <div class="flex flex-wrap gap-2">
                     <div v-for="person in pendingNames" :key="person.id"
@@ -117,7 +117,14 @@ const props = defineProps({
 const pay_completed_living = computed(() => props.pay_completed_living);
 // 根据条件获取不同名单
 const paidNames = computed(() => classDetailsStore.classDetails.filter(student => student.livingInfo[0]?.feeAmount > 0));
-const manualNames = computed(() => classDetailsStore.classDetails.filter(student => student.manualPayments.length > 0));
+
+const manualNames = computed(() =>
+    classDetailsStore.classDetails.map(student => ({
+        ...student,
+        manualPayments: student.manualPayments.filter(payment => payment.month === 3), // 过滤 month=3 的记录
+    })).filter(student => student.manualPayments.length > 0) // 确保有数据
+);
+
 const stateNoNames = computed(() => classDetailsStore.classDetails.filter(student => student.livingState === false));
 const pendingNames = computed(() =>
     classDetailsStore.classDetails
@@ -141,7 +148,7 @@ watchEffect(() => {
 });
 // 加载数据
 onMounted(async () => {
-    await classDetailsStore.fetchClassDetails(props.classNames, 2);
+    await classDetailsStore.fetchClassDetails(props.classNames, 3);
     total_count.value = classDetailsStore.classDetails.length;
     loading.value = false;
     const teacherInfo = await classDetailsStore.fetchHeadTeacherTel(props.classNames);

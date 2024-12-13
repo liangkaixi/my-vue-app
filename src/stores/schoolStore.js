@@ -34,16 +34,17 @@ export const useClassDetailsStore = defineStore('classDetails', {
       error: null,
     }),
     actions: {
-        async fetchClassDetails(classNames, month = 2) {
+        async fetchClassDetails(classNames, month =3) {
             this.loading = true;
             this.error = null;
           
             // Step 1: 获取 studentInfo 和 livingInfo
             const { data: studentData, error: studentError } = await supabase
                 .from('studentInfo')
-                .select(`*, livingInfo!inner(amount, feeAmount),manualPayments!left(paymentMethod, amount_charged) `)
+                .select(`*, livingInfo!inner(amount, feeAmount, month),manualPayments!left(paymentMethod, amount_charged, month) `)
                 .eq('classNames', classNames)
-                .eq('livingInfo.month', month);
+                .eq('livingInfo.month', month)
+                .eq('manualPayments.month', month);
           
             if (studentError) {
                 console.error('Error fetching class details:', studentError);
@@ -165,7 +166,7 @@ export const useClassDetailsStore = defineStore('classDetails', {
         }
     },
     async saveManualPayment(studentId, method, amount) {
-        const month = 2;
+        const month = 3;
         try {
             await supabase
                 .from('manualPayments')
